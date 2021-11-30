@@ -9,7 +9,7 @@ export const checkCardType = (cardNumber: string = ''): boolean =>
 
 export const addCardValidationSchema = Yup.object().shape({
   nickname: Yup.string().trim(),
-  cardName: Yup.string().trim().required('Card Name is required'),
+  cardName: Yup.string().trim().required('Cardholder name is required'),
   cardNumber: Yup.string()
     .transform(formatCardNumber)
     .length(16)
