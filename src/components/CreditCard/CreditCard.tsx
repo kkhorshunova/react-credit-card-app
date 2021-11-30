@@ -34,7 +34,7 @@ const CreditCard = ({card}: CreditCardProps) => {
   const toggleCVV = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
-      return setShownCVV(state => !state)
+      setShownCVV(state => !state)
     },
     [])
 
@@ -59,8 +59,7 @@ const CreditCard = ({card}: CreditCardProps) => {
       <Grid direction="column">
         <MagnetLine/>
         <Grid justify="flex-end" align="flex-start" style={{padding: '0 10px'}}>
-          {showCVV && <CVV>{card.cvv}</CVV>}
-          {!showCVV && <CVV>&#42;&#42;&#42;</CVV>}
+          <CVV>{showCVV ? card.cvv : <>&#42;&#42;&#42;</>}</CVV>
           <IconButton onClick={toggleCVV}>
             <FontAwesomeIcon icon={faEye}/>
           </IconButton>
