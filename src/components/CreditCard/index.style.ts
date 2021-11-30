@@ -21,6 +21,7 @@ export const CardName = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-transform: uppercase;
 `;
 
 export const CardNumberWrapper = styled.div`
@@ -38,6 +39,6 @@ export const MagnetLine = styled.div`
 `;
 
 export const CVV = styled.span`
-  padding: 0 25px;
+  padding: 0 5px;
   font-size: 18px;
 `;

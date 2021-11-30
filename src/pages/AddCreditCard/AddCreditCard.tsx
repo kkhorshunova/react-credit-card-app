@@ -11,7 +11,7 @@ import {SuccessButton, CancelButton} from 'components/Buttons/Buttons';
 import {StyledForm, HalfWidthInputWrapper, ButtonContainer} from './index.style';
 
 import {addCard} from 'store/thunks';
-import {AddCardFormData} from 'types/types';
+import {AddCardFormData} from './types';
 
 import {parseFormData} from './utils/parseData';
 import {CARD_NUMBER_MASK, CVV_MASK, EXPIRATION_DATE_MASK} from './utils/constants';

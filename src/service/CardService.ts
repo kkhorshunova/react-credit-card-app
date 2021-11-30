@@ -1,5 +1,5 @@
 import {cards} from './mocks';
-import {Card, FilterFunc, Filters, Sorting} from 'types/types';
+import {Card, FilterFunc, Filters, Sorting} from 'types/card';
 
 class CardService {
   private cards: Card[];
@@ -35,7 +35,7 @@ class CardService {
     this.cards = this.cards.filter(card => card.id !== id)
   }
 
-  createFilters({nickname, cardType}: Omit<Filters, 'sorting'>) {
+  private createFilters({nickname, cardType}: Omit<Filters, 'sorting'>) {
     const filters: FilterFunc[] = []
 
     if (nickname) {
@@ -51,8 +51,8 @@ class CardService {
     return filters;
   }
 
-  sortByExpiryDate(a: Card, b: Card): number {
-    if(a.expiryDate.year === b.expiryDate.year) {
+  private sortByExpiryDate(a: Card, b: Card): number {
+    if (a.expiryDate.year === b.expiryDate.year) {
       return Number(a.expiryDate.month) - Number(b.expiryDate.month);
     }
 

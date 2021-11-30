@@ -3,32 +3,33 @@ import moment from 'moment';
 
 import {formatCardNumber, formatExpiryDate} from './parseData';
 import {availableCards} from './constants';
+import * as validationMessages from './validationMessages';
 
 export const checkCardType = (cardNumber: string = ''): boolean =>
   availableCards.some(card => card.pattern.test(cardNumber));
 
 export const addCardValidationSchema = Yup.object().shape({
   nickname: Yup.string().trim(),
-  cardName: Yup.string().trim().required('Cardholder name is required'),
+  cardName: Yup.string().trim().required(validationMessages.REQUIRED_FIELD),
   cardNumber: Yup.string()
     .transform(formatCardNumber)
     .length(16)
-    .required('Card Number is required')
+    .required(validationMessages.REQUIRED_FIELD)
     .test(
       'is-card-type-valid',
-      'Card is not valid. Please enter Visa or Mastercard card',
+      validationMessages.CARD_TYPE_NOT_VALID,
       (value) => checkCardType(value),
     ),
   expiryDate: Yup.string()
-    .required('Expiration Date is required')
+    .required(validationMessages.REQUIRED_FIELD)
     .test(
       'is-expiration-date-valid-format',
-      'Please use "MM/YY" date format',
+      validationMessages.EXPIRY_DATE_FORMAT_NOT_VALID,
       (value) => value ? !(formatExpiryDate(value).length < 5) : true
     )
     .test(
       'is-expiration-date-valid',
-      'Expiration Date is invalid',
+      validationMessages.EXPIRY_DATE_NOT_VALID,
       (value) => moment(value, 'MM/YY').isValid()),
-  cvv: Yup.string().length(3, 'CVV must be exactly 3 characters').required('CVV is required'),
+  cvv: Yup.string().length(3, validationMessages.CVV_LENGTH_NOT_VALID).required(validationMessages.REQUIRED_FIELD),
 });

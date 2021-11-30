@@ -1,4 +1,5 @@
-import {CreateCard, AddCardFormData, CardType} from 'types/types';
+import {CreateCard, CardType} from 'types/card';
+import {AddCardFormData} from '../types';
 import {availableCards} from './constants';
 
 export const formatCardNumber = (cardNumber: string): string => cardNumber.split(' ').join('');

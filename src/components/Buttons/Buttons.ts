@@ -26,6 +26,7 @@ const IconButton = styled(BaseButton)`
   min-width: unset;
   min-height: unset;
   color: black;
+  background: none;
 `;
 
 export {

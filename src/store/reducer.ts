@@ -1,6 +1,15 @@
-import {State, ActionType, GET_CARDS} from 'types/types';
+import {GET_CARDS, Card} from 'types/card';
 
-const initialState = {
+export interface State {
+  cards: Card[];
+}
+
+export type ActionType = {
+  type: string;
+  payload?: any;
+};
+
+const initialState: State = {
   cards: []
 }
 

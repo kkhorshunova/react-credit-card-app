@@ -1,4 +1,5 @@
-import {AvailableCard, CardType} from 'types/types';
+import {CardType} from 'types/card';
+import {AvailableCard} from '../types';
 
 export const CARD_NUMBER_MASK =
   [/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/];

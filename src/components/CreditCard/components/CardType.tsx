@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {CardType as CardTypeEnum} from 'types/types';
+import {CardType as CardTypeEnum} from 'types/card';
 
-import visaLogo from 'assets/visa.png';
-import mastercardLogo from 'assets/mastercard.png';
+import visaLogo from 'assets/images/visa.png';
+import mastercardLogo from 'assets/images/mastercard.png';
 
-const types: { [key: string]: any } = {
+const types: { [key: string]: string } = {
   [CardTypeEnum.Mastercard]: mastercardLogo,
   [CardTypeEnum.Visa]: visaLogo,
 }
