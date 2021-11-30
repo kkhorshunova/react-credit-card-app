@@ -9,7 +9,8 @@ import {
   CardTypeWrapper,
   CardNumberWrapper,
   CardName,
-  MagnetLine, CVV
+  MagnetLine, 
+  CVV
 } from './index.style';
 
 import cardChip from 'assets/card-chip.png';
