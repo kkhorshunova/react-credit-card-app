@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTrash} from '@fortawesome/free-solid-svg-icons'
@@ -6,19 +6,22 @@ import {faTrash} from '@fortawesome/free-solid-svg-icons'
 import CreditCard from 'components/CreditCard/CreditCard';
 import {CardContainer} from 'components/CreditCard/index.style';
 import Page from 'components/Page/Page';
-import Grid from 'components/Grid/Grid';
-import {IconButton} from 'components/buttons/Buttons';
-import {ListWrapper, CardWrapper, AddCardLink} from './index.style';
+import {IconButton} from 'components/Buttons/Buttons';
+import {ListWrapper, CardWrapper, AddCardLink, CardHeader} from './index.style';
+import FiltersBar from './FiltersBar';
 
 import {AppState} from 'store/store';
-import {deleteCard} from 'store/thunks';
-import FiltersBar from './FiltersBar';
-import {Card} from 'types/types';
-
+import {deleteCard, getCards} from 'store/thunks';
+import {Card, Filters} from 'types/types';
 
 const CreditCardList = () => {
   const dispatch = useDispatch();
   const cards = useSelector<AppState, Card[]>(({cards}) => cards.cards);
+  const [filters, setFilters] = useState<Filters>({nickname: '', cardType: '',sorting: ''});
+
+  useEffect(() => {
+    dispatch(getCards({...filters}));
+  }, [filters]);
 
   const handleDelete = (id: string) => {
     dispatch(deleteCard(id));
@@ -26,7 +29,7 @@ const CreditCardList = () => {
 
   return (
     <Page title="Cards List">
-      <FiltersBar/>
+      <FiltersBar filters={filters} setFilters={setFilters} />
       <ListWrapper>
         <CardWrapper>
           <CardContainer>
@@ -37,10 +40,10 @@ const CreditCardList = () => {
         </CardWrapper>
         {cards.map(card => (
           <CardWrapper key={card.id}>
-            <Grid justify="space-between" align="center" style={{padding: '0 10px 10px'}}>
-              <p style={{fontWeight: 700}}>{card.nickname}</p>
+            <CardHeader justify="space-between" align="center">
+              <p>{card.nickname}</p>
               <IconButton onClick={() => handleDelete(card.id)}><FontAwesomeIcon icon={faTrash}/></IconButton>
-            </Grid>
+            </CardHeader>
             <CreditCard card={card}/>
           </CardWrapper>
         ))}

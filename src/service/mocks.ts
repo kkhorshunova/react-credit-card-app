@@ -1,4 +1,4 @@
-import {Card} from 'types/types';
+import {Card, CardType} from 'types/types';
 
 export const cards: Card[] = [
   {
@@ -10,7 +10,7 @@ export const cards: Card[] = [
       year: '24'
     },
     cvv: '586',
-    cardType: 'MASTERCARD',
+    cardType: CardType.Mastercard,
     nickname: 'Shared Card',
   },
   {
@@ -22,7 +22,7 @@ export const cards: Card[] = [
       year: '23'
     },
     cvv: '456',
-    cardType: 'MASTERCARD',
+    cardType: CardType.Mastercard,
     nickname: 'Family Card',
   },
   {
@@ -34,7 +34,7 @@ export const cards: Card[] = [
       year: '23'
     },
     cvv: '837',
-    cardType: 'VISA',
+    cardType: CardType.Visa,
     nickname: '',
   },
   {
@@ -46,7 +46,7 @@ export const cards: Card[] = [
       year: '25'
     },
     cvv: '738',
-    cardType: 'VISA',
+    cardType: CardType.Visa,
     nickname: '',
   },
 ]

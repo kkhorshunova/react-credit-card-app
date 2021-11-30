@@ -2,7 +2,7 @@ import styled, {css} from 'styled-components';
 import {Link} from 'react-router-dom';
 
 import Grid from 'components/Grid/Grid';
-import {BaseButton} from '../../components/buttons/Buttons';
+import {BaseButton} from '../../components/Buttons/Buttons';
 
 export const CardWrapper = styled(Grid)`
   max-width: 300px;
@@ -22,6 +22,14 @@ export const CardWrapper = styled(Grid)`
       max-width: 350px;
     }
   `
+  }
+`;
+
+export const CardHeader = styled(Grid)`
+  padding: 0 10px 10px;
+  
+  & p {
+    font-weight: 700;
   }
 `;
 

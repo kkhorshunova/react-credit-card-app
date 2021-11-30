@@ -1,4 +1,4 @@
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 import Grid from '../Grid/Grid';
 
 export const CardContainer = styled(Grid)`
@@ -35,4 +35,9 @@ export const MagnetLine = styled.div`
   height: 40px;
   margin: 25px 0;
   background: black;
+`;
+
+export const CVV = styled.span`
+  padding: 0 25px;
+  font-size: 18px;
 `;

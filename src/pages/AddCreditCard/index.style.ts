@@ -1,5 +1,6 @@
 import styled, {css} from 'styled-components';
 import {Form} from 'formik';
+
 import Grid from 'components/Grid/Grid';
 
 export const StyledForm = styled(Form)`

@@ -1,17 +1,19 @@
 import React, {ReactElement} from 'react';
-import {Route, RouteProps, Switch} from 'react-router-dom';
+import {Route, RouteProps, Redirect, Switch} from 'react-router-dom';
 
-import {routes} from "./routes";
+import {routes} from './routes';
 
 function App() {
   return (
     <Switch>
+      <Route exact path="/">
+        <Redirect to="/cards" />
+      </Route>
       {routes.map(
-        (route: RouteProps): ReactElement =>
-          <Route {...route} />
+        (route: RouteProps, index): ReactElement =>
+          <Route key={index} {...route} />
       )}
     </Switch>
-
   );
 }
 

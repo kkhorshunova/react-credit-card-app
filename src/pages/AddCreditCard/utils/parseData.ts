@@ -1,9 +1,10 @@
-import {CreateCard, AddCardFormData} from 'types/types';
+import {CreateCard, AddCardFormData, CardType} from 'types/types';
 import {availableCards} from './constants';
 
 export const formatCardNumber = (cardNumber: string): string => cardNumber.split(' ').join('');
+export const formatExpiryDate = (expiryDate: string): string => expiryDate.split(' / ').join('/');
 
-export const getCardType = (cardNumber: string): string => {
+export const getCardType = (cardNumber: string): CardType | '' => {
   const card = availableCards.find(card => card.pattern.test(cardNumber));
 
   return card?.type || '';

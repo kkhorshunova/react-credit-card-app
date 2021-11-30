@@ -1,67 +1,70 @@
-import React, {useCallback, useEffect, useState} from 'react';
-
-import {TextInput} from 'components/inputs/TextInput';
-import Select from 'components/inputs/Select';
-
-import {getCards} from 'store/thunks';
-import {ExpirationDateFilter, FiltersBarWrapper} from './index.style';
-import {VISA, MASTERCARD} from '../AddCreditCard/utils/constants';
-import {faArrowDown} from '@fortawesome/free-solid-svg-icons';
-import {faArrowUp} from '@fortawesome/free-solid-svg-icons';
+import React, {useCallback} from 'react';
+import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {useDispatch} from 'react-redux';
 
+import {TextInput} from 'components/Inputs/TextInput';
+import Select from 'components/Inputs/Select';
+import {ExpirationDateFilter, FiltersBarWrapper} from './index.style';
 
-const CreditCardList = () => {
-  const dispatch = useDispatch();
-  const [nickname, setNickname] = useState('');
-  const [cardType, setCardType] = useState('');
-  const [sorting, setSorting] = useState('');
+import {CardType, Filters, Sorting} from 'types/types';
 
-  useEffect(() => {
-    dispatch(getCards({nickname, cardType, sorting}));
-  }, [nickname, cardType, sorting]);
+const cardTypesOptions = [
+  {value: CardType.Visa, label: 'Visa'},
+  {value: CardType.Mastercard, label: 'Mastercard'}
+];
 
+interface FiltersBarProps {
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>
+}
+
+const FiltersBar = ({filters, setFilters}: FiltersBarProps) => {
+
+  const updateFilters = (filter: Partial<Filters>) => {
+    setFilters(prevState => ({...prevState, ...filter}))
+  }
   const handleSearchChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => setNickname(e.target.value),
+    ({target: {value}}: React.ChangeEvent<HTMLInputElement>) =>
+      updateFilters({nickname: value}),
     []);
 
   const handleCardTypeChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => setCardType(e.target.value),
+    ({target: {value}}: React.ChangeEvent<HTMLSelectElement>) => updateFilters({cardType: value as CardType}),
     []);
 
   const handleSortingChange = () => {
-      console.log(sorting)
-      let sortOption = sorting;
-      if(!sorting) sortOption = 'DESC';
-      if(sorting === 'DESC') sortOption = 'ASC';
-      if(sorting === 'ASC') sortOption = '';
-      console.log(sortOption)
-      setSorting(sortOption)
-    };
+    let sortOption = filters.sorting;
+
+    if (!filters.sorting) sortOption = Sorting.Desc;
+    if (filters.sorting === Sorting.Desc) sortOption = Sorting.Asc;
+    if (filters.sorting === Sorting.Asc) sortOption = '';
+
+    updateFilters({sorting: sortOption})
+  };
 
   return (
     <FiltersBarWrapper>
       <div>
-        <TextInput name="search" label="Search by nickname:" placeholder="Search..." onChange={handleSearchChange}/>
+        <TextInput name="search" label="Search by nickname:" placeholder="Search..." value={filters.nickname}
+                   onChange={handleSearchChange}/>
       </div>
       <div>
         <Select
           name="cardType"
           label="Card Type:"
-          value={cardType}
+          value={filters.cardType}
           onChange={handleCardTypeChange}
-          options={[{value: VISA, label: 'Visa'}, {value: MASTERCARD, label: 'Mastercard'}]}
+          options={cardTypesOptions}
         />
       </div>
       <div>
         <ExpirationDateFilter onClick={handleSortingChange}>Expiration Date
-          {sorting === 'DESC' && <FontAwesomeIcon icon={faArrowDown}/>}
-          {sorting === 'ASC' && <FontAwesomeIcon icon={faArrowUp}/>}
+          {filters.sorting === Sorting.Desc && <FontAwesomeIcon icon={faArrowDown}/>}
+          {filters.sorting === Sorting.Asc && <FontAwesomeIcon icon={faArrowUp}/>}
         </ExpirationDateFilter>
       </div>
     </FiltersBarWrapper>
   )
 }
 
-export default CreditCardList;
+export default FiltersBar;

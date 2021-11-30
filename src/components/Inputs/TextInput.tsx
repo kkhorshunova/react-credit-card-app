@@ -1,19 +1,8 @@
 import React, {InputHTMLAttributes} from 'react';
 import {Field, FieldInputProps, FieldMetaProps} from 'formik';
 
-import {Label, RequiredMark, Input, InputWrapper, ErrorMessage} from './index.style';
-
-export const parseLabel = (label: string): string => label.replace('*', '');
-
-const getLabelText = (label: string): React.ReactNode =>
-  label.endsWith('*') ? (
-    <>
-      {parseLabel(label)}
-      <RequiredMark>*</RequiredMark>
-    </>
-  ) : (
-    label
-  );
+import {Label, Input, InputWrapper, ErrorMessage} from './index.style';
+import {getLabelText} from './utils/parseLabel';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;

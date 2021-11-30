@@ -3,7 +3,14 @@ import React, {useCallback, useState} from 'react';
 import Grid from '../Grid/Grid';
 import CardType from './components/CardType';
 import CardNumber from './components/CardNumber';
-import {CardContainer, CardContent, CardTypeWrapper, CardNumberWrapper, CardName, MagnetLine} from './index.style';
+import {
+  CardContainer,
+  CardContent,
+  CardTypeWrapper,
+  CardNumberWrapper,
+  CardName,
+  MagnetLine, CVV
+} from './index.style';
 
 import cardChip from 'assets/card-chip.png';
 import {Card} from 'types/types';
@@ -19,8 +26,8 @@ const CreditCard = ({card}: CreditCardProps) => {
     () => changeCardSide(state => !state),
     [])
 
-  return isFrontSide ?
-    <CardContainer direction="column" role="button" onClick={toggleCardSide} >
+  return isFrontSide
+    ? <CardContainer direction="column" role="button" onClick={toggleCardSide}>
       <CardContent>
         <CardTypeWrapper justify="flex-end" align="flex-start">
           <CardType cardType={card.cardType}/>
@@ -34,12 +41,12 @@ const CreditCard = ({card}: CreditCardProps) => {
           <p>{card.expiryDate.month}/{card.expiryDate.year}</p>
         </Grid>
       </CardContent>
-    </CardContainer> :
-    <CardContainer direction="column" onClick={toggleCardSide} role="button">
+    </CardContainer>
+    : <CardContainer direction="column" onClick={toggleCardSide} role="button">
       <Grid direction="column">
         <MagnetLine/>
         <Grid justify="flex-end" align="flex-start">
-          <span style={{padding: '0 25px', fontSize: '18px'}}>&#42;&#42;&#42;</span>
+          <CVV>&#42;&#42;&#42;</CVV>
         </Grid>
       </Grid>
     </CardContainer>

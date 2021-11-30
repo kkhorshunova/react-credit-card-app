@@ -1,20 +1,21 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 import {Formik} from 'formik';
 import {useHistory} from 'react-router-dom';
 
 import Grid from 'components/Grid/Grid';
-import TextField from 'components/inputs/TextInput';
+import TextField from 'components/Inputs/TextInput';
 import Page from 'components/Page/Page';
-import MaskedInput from 'components/inputs/MaskedInput';
-import {SuccessButton, CancelButton} from 'components/buttons/Buttons';
+import MaskedInput from 'components/Inputs/MaskedInput';
+import {SuccessButton, CancelButton} from 'components/Buttons/Buttons';
 import {StyledForm, HalfWidthInputWrapper, ButtonContainer} from './index.style';
 
 import {addCard} from 'store/thunks';
-import {addCardValidationSchema} from './utils/validation';
 import {AddCardFormData} from 'types/types';
+
 import {parseFormData} from './utils/parseData';
 import {CARD_NUMBER_MASK, CVV_MASK, EXPIRATION_DATE_MASK} from './utils/constants';
+import {addCardValidationSchema} from './utils/validation';
 
 const initialValues: AddCardFormData = {
   cardNumber: '',
@@ -28,15 +29,15 @@ const AddCreditCard = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const redirectToHomePage = useCallback(() => {
+    history.push('/cards');
+  }, []);
+
   const handleSubmit = (values: AddCardFormData) => {
     const cardData = parseFormData(values);
 
     dispatch(addCard(cardData));
-    history.push('/cards');
-  };
-
-  const handleCancel = () => {
-    history.push('/cards');
+    redirectToHomePage();
   };
 
   return (
@@ -74,7 +75,7 @@ const AddCreditCard = () => {
             </HalfWidthInputWrapper>
           </Grid>
           <ButtonContainer justify="center">
-            <CancelButton type="button" onClick={handleCancel}>Cancel</CancelButton>
+            <CancelButton type="button" onClick={redirectToHomePage}>Cancel</CancelButton>
             <SuccessButton type="submit">submit</SuccessButton>
           </ButtonContainer>
         </StyledForm>

@@ -1,7 +1,3 @@
-import React from 'react';
-
-export const ADD_CARD = 'ADD_CARD';
-export const DELETE_CARD = 'DELETE_CARD';
 export const GET_CARDS = 'GET_CARDS';
 
 export interface Card {
@@ -13,7 +9,7 @@ export interface Card {
     year: string;
   };
   cvv: string;
-  cardType: string;
+  cardType: CardType | '';
   nickname?: string;
 }
 
@@ -37,8 +33,28 @@ export interface AddCardFormData {
 }
 
 export interface AvailableCard {
-  type: 'VISA' | 'MASTERCARD',
+  type: CardType,
   pattern: RegExp
+}
+
+export interface Filters {
+  nickname: string;
+  cardType: CardType | '';
+  sorting: Sorting | '';
+}
+
+export interface FilterFunc {
+  (card: Card): boolean;
+}
+
+export enum CardType {
+  Visa = 'VISA',
+  Mastercard = 'MASTERCARD'
+}
+
+export enum Sorting {
+  Desc = 'DESC',
+  Asc = 'ASC'
 }
 
 

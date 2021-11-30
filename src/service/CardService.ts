@@ -1,5 +1,5 @@
 import {cards} from './mocks';
-import {Card} from '../types/types';
+import {Card, FilterFunc, Filters, Sorting} from 'types/types';
 
 class CardService {
   private cards: Card[];
@@ -8,8 +8,35 @@ class CardService {
     this.cards = cards;
   }
 
-  createFilters({nickname, cardType}: { nickname?: string, cardType?: string}) {
-    const filters: any[] = []
+  getCards({nickname, cardType, sorting}: Filters): Card[] {
+    let cards: Card[] = [...this.cards];
+    const filters = this.createFilters({nickname, cardType})
+
+    if (filters.length) {
+      cards = cards.filter(card => filters.every(filter => filter(card)));
+    }
+
+    if (sorting === Sorting.Asc) {
+      cards.sort(this.sortByExpiryDate)
+    }
+
+    if (sorting === Sorting.Desc) {
+      cards.sort((a, b) => -this.sortByExpiryDate(a, b));
+    }
+
+    return cards;
+  }
+
+  addCard(card: Card) {
+    this.cards.push(card);
+  }
+
+  deleteCard(id: string) {
+    this.cards = this.cards.filter(card => card.id !== id)
+  }
+
+  createFilters({nickname, cardType}: Omit<Filters, 'sorting'>) {
+    const filters: FilterFunc[] = []
 
     if (nickname) {
       filters.push((card: Card) =>
@@ -24,50 +51,12 @@ class CardService {
     return filters;
   }
 
-  getCards({nickname, cardType, sorting}: { nickname?: string, cardType?: string, sorting?: string }): Card[] {
-    let cards: Card[] = [...this.cards];
-    const filters = this.createFilters({nickname, cardType})
-
-    if (filters.length) {
-      cards = cards.filter(card => filters.every(filter => filter(card)));
+  sortByExpiryDate(a: Card, b: Card): number {
+    if(a.expiryDate.year === b.expiryDate.year) {
+      return Number(a.expiryDate.month) - Number(b.expiryDate.month);
     }
 
-    if (sorting) {
-      if (sorting === 'ASC') {
-        cards.sort((a, b) => {
-          if (a.expiryDate.year > b.expiryDate.year) return 1;
-          if (a.expiryDate.year < b.expiryDate.year) return -1;
-
-          if (a.expiryDate.month > b.expiryDate.month) return 1;
-          if (a.expiryDate.month < b.expiryDate.month) return -1;
-
-          return 1;
-        });
-      }
-
-      if (sorting === 'DESC') {
-        cards.sort((a, b) => {
-          if (a.expiryDate.year < b.expiryDate.year) return 1;
-          if (a.expiryDate.year > b.expiryDate.year) return -1;
-
-          if (a.expiryDate.month < b.expiryDate.month) return 1;
-          if (a.expiryDate.month > b.expiryDate.month) return -1;
-
-          return 1;
-        });
-      }
-    }
-
-    return cards;
-  }
-
-
-  addCard(card: Card) {
-    this.cards.push(card);
-  }
-
-  deleteCard(id: string) {
-    this.cards = this.cards.filter(card => card.id !== id)
+    return Number(a.expiryDate.year) - Number(b.expiryDate.year);
   }
 }
 

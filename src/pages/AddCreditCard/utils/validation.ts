@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import moment from 'moment';
 
-import {formatCardNumber} from './parseData';
+import {formatCardNumber, formatExpiryDate} from './parseData';
 import {availableCards} from './constants';
 
 export const checkCardType = (cardNumber: string = ''): boolean =>
@@ -21,6 +21,11 @@ export const addCardValidationSchema = Yup.object().shape({
     ),
   expiryDate: Yup.string()
     .required('Expiration Date is required')
+    .test(
+      'is-expiration-date-valid-format',
+      'Please use "MM/YY" date format',
+      (value) => value ? !(formatExpiryDate(value).length < 5) : true
+    )
     .test(
       'is-expiration-date-valid',
       'Expiration Date is invalid',

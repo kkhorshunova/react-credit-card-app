@@ -9,7 +9,7 @@ interface Option {
 interface SelectProps {
   label: string;
   name: string;
-  value: string;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: Option[];
 }
